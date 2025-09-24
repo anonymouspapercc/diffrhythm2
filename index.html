@@ -37,27 +37,33 @@
   <script src="./js/bulma-slider.min.js"></script>
 
   <style>
+    .lyrics-card {
+      margin: 0;                 /* 去掉 card 默认 margin */
+      border: 1px solid #dbdbdb; /* card 边框 */
+      border-radius: 6px;
+    }
     .collapsible {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease, padding 0.4s ease;
-      padding: 0 0.5rem; /* 初始 padding 去掉上下 */
+      padding: 0;
     }
     .collapsible.is-active {
-      max-height: 250px;  /* 展开后的最大高度 */
+      max-height: 300px;
       overflow-y: auto;
       padding: 0.5rem;
-      background: #fafafa;
-      border: 1px solid #dbdbdb;
-      border-radius: 4px;
-      margin-top: 0.5rem;
     }
-    .toggle-btn {
+    .card-header {
       cursor: pointer;
-      color: #3273dc;
-      font-weight: bold;
-      display: inline-block;
-      margin-bottom: 0.25rem;
+      background: #f5f5f5;
+    }
+    .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    /* 激活状态：旋转 180 度 */
+    .arrow.rotated {
+      transform: rotate(180deg);
     }
   </style>
 </head>
@@ -125,12 +131,12 @@
     <div class="container is-max-desktop is-centered has-text-centered">
       <div class="hero-body">
         <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <img src="./images/iclr_overview_v4.pdf" class="interpolation-image" alt="overview" />
+          <div class="column is-five-fifths">
+            <img src="./images/iclr_overview.png" class="interpolation-image" alt="overview" />
             <h2 class="subtitle has-text-centered">
               The overview of DiffRhythm 2.
             </h2>
-            <img src="./images/iclr_train_detail_v4.pdf" class="interpolation-image" alt="train_detail" />
+            <img src="./images/iclr_train_detail.png" class="interpolation-image" alt="train_detail" />
             <h2 class="subtitle has-text-centered">
               The training details of DiffRhythm 2.
             </h2>
@@ -226,129 +232,102 @@
               </thead>
               <tbody>
                 <tr>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     Rock, Pop
                   </td>
                   <td width="30%" style="text-align: left;">
-                    <span class="toggle-btn">Show Lyrics ▼</span>
-                    <div class="collapsible">
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
+                    <div class="card lyrics-card">
+                      <header class="card-header">
+                        <p class="card-header-title">Lyrics</p>
+                        <div class="card-header-icon" aria-label="more options">
+                          <span class="icon">
+                            <i class="fas fa-angle-down arrow" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                      </header>
+                      <div class="card-content collapsible">
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                      </div>
                     </div>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/yue/02.mp3" type="audio/wav">
                     </audio>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/diffrhythm/02.mp3" type="audio/wav">
                     </audio>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/acestep/02.mp3" type="audio/wav">
                     </audio>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/overview/02.mp3" type="audio/wav">
                     </audio>
                   </td>
                 </tr>
                 <tr>
-                  <td width="12%" style="text-align: left;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     Rock, Pop
                   </td>
                   <td width="30%" style="text-align: left;">
-                    <span class="toggle-btn">Show Lyrics ▼</span>
-                    <div class="collapsible">
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
+                    <div class="card lyrics-card">
+                      <header class="card-header">
+                        <p class="card-header-title">Lyrics</p>
+                        <div class="card-header-icon" aria-label="more options">
+                          <span class="icon">
+                            <i class="fas fa-angle-down arrow" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                      </header>
+                      <div class="card-content collapsible">
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <p>Aliquam tincidunt mauris eu risus...</p>
+                        <p>Vestibulum auctor dapibus neque...</p>
+                      </div>
                     </div>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/yue/02.mp3" type="audio/wav">
                     </audio>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/diffrhythm/02.mp3" type="audio/wav">
                     </audio>
                   </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/acestep/02.mp3" type="audio/wav">
                     </audio>
                   </td>
-                  <td width="12%" style="text-align: center;">
-                    <audio controls="">
-                      <source src="static/audio_sample/overview/02.mp3" type="audio/wav">
-                    </audio>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="12%" style="text-align: left;">
-                    Rock, Pop
-                  </td>
-                  <td width="30%" style="text-align: left;">
-                    <span class="toggle-btn">Show Lyrics ▼</span>
-                    <div class="collapsible">
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                      <p>Lorem ipsum dolor sit amet...</p>
-                      <p>Aliquam tincidunt mauris eu risus...</p>
-                      <p>Vestibulum auctor dapibus neque...</p>
-                    </div>
-                  </td>
-                  <td width="12%" style="text-align: center;">
-                    <audio controls="">
-                      <source src="static/audio_sample/yue/02.mp3" type="audio/wav">
-                    </audio>
-                  </td>
-                  <td width="12%" style="text-align: center;">
-                    <audio controls="">
-                      <source src="static/audio_sample/diffrhythm/02.mp3" type="audio/wav">
-                    </audio>
-                  </td>
-                  <td width="12%" style="text-align: center;">
-                    <audio controls="">
-                      <source src="static/audio_sample/acestep/02.mp3" type="audio/wav">
-                    </audio>
-                  </td>
-                  <td width="12%" style="text-align: center;">
+                  <td class="is-vcentered" width="12%" style="text-align: center;">
                     <audio controls="">
                       <source src="static/audio_sample/overview/02.mp3" type="audio/wav">
                     </audio>
@@ -368,7 +347,7 @@
       <!-- Abstract. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-4" style="color: #e89c1a">Ethics-statement</h2>
+          <h2 class="title is-4" style="color: #e89c1a">Ethics-Statement</h2>
           <div class="content has-text-justified">
             <p>
               DiffRhythm enables the creation of original music across diverse genres, supporting applications in artistic
@@ -387,13 +366,13 @@
   </section>
 
   <script>
-    document.querySelectorAll(".toggle-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const lyrics = btn.nextElementSibling;
-        lyrics.classList.toggle("is-active");
-        btn.textContent = lyrics.classList.contains("is-active")
-          ? "Hide Lyrics ▲"
-          : "Show Lyrics ▼";
+    document.querySelectorAll(".lyrics-card .card-header").forEach(header => {
+      const collapsible = header.nextElementSibling;
+      const arrow = header.querySelector('.arrow');
+
+      header.addEventListener("click", () => {
+        collapsible.classList.toggle("is-active");
+        arrow.classList.toggle('rotated');
       });
     });
   </script>
