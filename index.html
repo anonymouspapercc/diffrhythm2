@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="DiffRhythm 2: Efficient and High Fidelity Song Generation via Block Flow Matching">
+  <meta name="keywords"
+    content="Song generation, Music generation, Diffusion Model, Semi-Autoregressive, Preference Alignment">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DiffRhythm 2</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2d0fa">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7749G0HJZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-L7749G0HJZ');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/bulma.min.css">
+  <link rel="stylesheet" href="./css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./js/fontawesome.all.min.js"></script>
+  <script src="./js/bulma-carousel.min.js"></script>
+  <script src="./js/bulma-slider.min.js"></script>
+
+  <style>
+    .collapsible {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 0.5rem; /* 初始 padding 去掉上下 */
+    }
+    .collapsible.is-active {
+      max-height: 250px;  /* 展开后的最大高度 */
+      overflow-y: auto;
+      padding: 0.5rem;
+      background: #fafafa;
+      border: 1px solid #dbdbdb;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+    .toggle-btn {
+      cursor: pointer;
+      color: #3273dc;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="page-header">
+
+  </section>
+  <section class="hero">
+    <div class="hero-body" style="padding-bottom: 24px;">
+      <div class="container  is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title" style="color: #e89c1a">DiffRhythm 2: Efficient and High Fidelity
+              Song Generation via Block Flow Matching</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                Anonymous Author(s)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="abs" class="section" style="padding-top: 0px;">
+    <div class="container  is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-five-fifths">
+          <h2 class="title is-3" style="color: #e89c1a">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Generating full-length, high-quality songs is challenging, as it requires maintaining long-term coherence
+              across text and music modalities. Existing non-autoregressive (NAR) frameworks, while capable of producing
+              high-quality songs, often struggle with the alignment between lyrics and vocal. Concurrently, catering to
+              diverse musical preferences necessitates reinforcement learning from human feedback (RLHF). However,
+              existing methods often rely on merging multiple models during multi-preference optimization, which results
+              in significant performance degradation.
+              To address these challenges, we introduce DiffRhythm 2, an end-to-end framework designed for
+              high-fidelity, controllable song generation. To tackle the lyric alignment problem, DiffRhythm 2 employs a
+              semi-autoregressive architecture based on block flow matching. This design enables precise alignment of
+              lyrics to singing vocals without relying on external labels and constraints, all while preserving the high
+              generation quality and efficiency of flow-based models. To make this framework computationally tractable
+              for long sequences, we develop a music variational autoencoder (VAE) that achieves a low frame rate of 5
+              Hz while still enabling high-fidelity audio reconstruction.
+              In addition, to overcome the limitations of multi-preference optimization in RLHF, we propose cross-pair
+              preference optimization. This method effectively mitigates the performance drop typically associated with
+              model merging, allowing for more robust optimization across diverse human preferences. We further enhance
+              musicality and structural coherence by introducing stochastic block representation alignment loss.
+              Experimental results demonstrate that DiffRhythm 2 can generate complete songs up to 210 seconds in
+              length, consistently outperforming existing open-source models in both subjective and objective
+              evaluations, while maintaining efficient generation speed.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop is-centered has-text-centered">
+      <div class="hero-body">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <img src="./images/iclr_overview_v4.pdf" class="interpolation-image" alt="overview" />
+            <h2 class="subtitle has-text-centered">
+              The overview of DiffRhythm 2.
+            </h2>
+            <img src="./images/iclr_train_detail_v4.pdf" class="interpolation-image" alt="train_detail" />
+            <h2 class="subtitle has-text-centered">
+              The training details of DiffRhythm 2.
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="toc" class="section" style="padding-top: 0px;">
+    <div class="container  is-fluid">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-4" style="color: #e89c1a;">Our code will be released soon</h2>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <style>
+    /* 歌词 summary 鼠标悬停效果 */
+    details summary {
+      font-weight: bold;
+      color: #007bff;
+      cursor: pointer;
+      outline: none;
+      transition: color 0.2s, text-decoration 0.2s;
+    }
+
+    details summary:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+
+    details[open] summary {
+      color: #d9534f;
+    }
+
+    /* 歌词内容美化 */
+    .lyrics-content {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      white-space: pre-line;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    .lyrics-section {
+      font-weight: bold;
+      color: #333;
+      margin-top: 8px;
+    }
+
+    /* 音频列弱化 */
+    .audio-compare {
+      opacity: 0.5;
+      font-size: 0.95em;
+      background: #f8f9fa;
+    }
+
+    /* 最后一列突出 */
+    .audio-overview {
+      background: #fffbe6;
+      border: 2px solid #ffd700;
+      font-weight: bold;
+      box-shadow: 0 0 8px #ffe066;
+      opacity: 1;
+      font-size: 1.08em;
+    }
+  </style>
+
+  <section id="demo" class="hero">
+    <div class="hero-body">
+      <div class="container is-fluid">
+        <div class="columns is-centered is-gapless has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Song Generation</h2>
+          </div>
+        </div>
+        <div class="columns is-centered is-gapless has-text-centered">
+          <div class="column is-full">
+            <table class="table is-vcentered" style="width: 100%; background-color: transparent;">
+              <thead>
+                <tr>
+                  <th align="center"><strong>Prompt</strong></th>
+                  <th align="center"><strong>Lyrics</strong></th>
+                  <th align="center"><strong>DiffRhythm+</strong></th>
+                  <th align="center"><strong>ACE-Step</strong></th>
+                  <th align="center"><strong>LeVo</strong></th>
+                  <th align="center"><strong>DiffRhythm 2</strong></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td width="12%" style="text-align: center;">
+                    Rock, Pop
+                  </td>
+                  <td width="30%" style="text-align: left;">
+                    <span class="toggle-btn">Show Lyrics ▼</span>
+                    <div class="collapsible">
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                    </div>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/yue/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/diffrhythm/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/acestep/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/overview/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="12%" style="text-align: left;">
+                    Rock, Pop
+                  </td>
+                  <td width="30%" style="text-align: left;">
+                    <span class="toggle-btn">Show Lyrics ▼</span>
+                    <div class="collapsible">
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                    </div>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/yue/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/diffrhythm/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/acestep/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/overview/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="12%" style="text-align: left;">
+                    Rock, Pop
+                  </td>
+                  <td width="30%" style="text-align: left;">
+                    <span class="toggle-btn">Show Lyrics ▼</span>
+                    <div class="collapsible">
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                      <p>Lorem ipsum dolor sit amet...</p>
+                      <p>Aliquam tincidunt mauris eu risus...</p>
+                      <p>Vestibulum auctor dapibus neque...</p>
+                    </div>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/yue/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/diffrhythm/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/acestep/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td width="12%" style="text-align: center;">
+                    <audio controls="">
+                      <source src="static/audio_sample/overview/02.mp3" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+
+
+              </tbody>
+            </table>
+
+          </div>
+  </section>
+
+
+  <section id="abs" class="section" style="padding-top: 0px;">
+    <div class="container  is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-4" style="color: #e89c1a">Ethics-statement</h2>
+          <div class="content has-text-justified">
+            <p>
+              DiffRhythm enables the creation of original music across diverse genres, supporting applications in artistic
+              creation, education, and entertainment. While designed for positive use cases, potential risks include
+              unintentional copyright infringement through stylistic similarities, inappropriate blending of cultural musical
+              elements, and misuse for generating harmful content.
+              To ensure responsible deployment, users must implement verification mechanisms to confirm musical originality,
+              disclose AI involvement in generated works, and obtain permissions when adapting protected styles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </section>
+
+  <script>
+    document.querySelectorAll(".toggle-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const lyrics = btn.nextElementSibling;
+        lyrics.classList.toggle("is-active");
+        btn.textContent = lyrics.classList.contains("is-active")
+          ? "Hide Lyrics ▲"
+          : "Show Lyrics ▼";
+      });
+    });
+  </script>
+</body>
+</html>
